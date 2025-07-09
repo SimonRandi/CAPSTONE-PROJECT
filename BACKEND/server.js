@@ -19,6 +19,8 @@ server.use(
       "http://localhost:5173",
       "https://capstone-project-rho-kohl.vercel.app/",
     ],
+    credentials: true,
+    allowedHeaders: ["Authorization", "Content-Type"],
   })
 );
 
