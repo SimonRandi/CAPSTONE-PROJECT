@@ -17,7 +17,7 @@ server.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://capstone-project-rho-kohl.vercel.app/",
+      "https://capstone-project-rho-kohl.vercel.app",
     ],
     credentials: true,
     allowedHeaders: ["Authorization", "Content-Type"],
