@@ -13,7 +13,14 @@ server.use(express.json());
 
 require("dotenv").config();
 
-server.use(cors());
+server.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://capstone-project-rho-kohl.vercel.app/",
+    ],
+  })
+);
 
 const animalRoute = require("./routes/animal.route");
 const userRoute = require("./routes/user.route");
