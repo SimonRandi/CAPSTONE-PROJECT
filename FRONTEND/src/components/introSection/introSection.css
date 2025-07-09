@@ -1,0 +1,9 @@
+.customIntroiImg {
+  width: 100%;
+  height: 400px !important;
+  border-radius: 10px;
+}
+
+.container-custom {
+  width: 600px !important;
+}

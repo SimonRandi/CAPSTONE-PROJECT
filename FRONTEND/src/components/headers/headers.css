@@ -1,0 +1,33 @@
+.custom-img {
+  object-fit: cover;
+
+  margin-bottom: 20px;
+
+  padding-top: 10px;
+}
+.heading {
+  font-weight: bold;
+  font-size: 44px;
+  color: #385b64;
+}
+.brand-name {
+  color: #ffc901 !important;
+}
+
+.custom-btn-position {
+  position: absolute;
+  top: 30px;
+  left: 45%;
+}
+
+@keyframes floating {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

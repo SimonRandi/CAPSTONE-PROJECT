@@ -1,0 +1,177 @@
+import React, { useEffect, useState } from "react";
+import("../userProfile/userProfile.css");
+import ProfilePhoto from "../../../img/user-profile-foto.png";
+import { UserPen, Trash2 } from "lucide-react";
+import { Modal, Button, Form } from "react-bootstrap";
+
+const UserProfile = () => {
+  const [user, setUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [error, setError] = useState("");
+
+  const getMyProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setError("Utente non autorizzato");
+      }
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/users/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+      if (!response.ok) {
+        setError("Errore nel recupero del profilo");
+      }
+
+      setUser(data.user);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getMyProfile();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const updateUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/users/edit/${user._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+      if (!response.ok) {
+        setError("Errore nella modifica");
+      }
+
+      setUser(data.userToUpdate);
+      setShowModal(false);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  return (
+    <>
+      <div className="container">
+        <div className="row ">
+          <h2>Il tuo profilo</h2>
+
+          {error && <p className="text-danger">{error}</p>}
+
+          {user ? (
+            <div className="col-12 mt-5">
+              <div className="card custom-card-profile">
+                <div className="image-profile-container d-flex justify-content-center">
+                  <img className="img-fluid " src={ProfilePhoto} alt="" />
+                </div>
+                <p>
+                  <strong>Nome:</strong> {user.firstName}
+                </p>
+                <p>
+                  <strong>Cognome:</strong> {user.lastName}
+                </p>
+                <p>
+                  <strong>Email:</strong> {user.email}
+                </p>
+                <p>
+                  <strong>Telefono:</strong> {user.phoneNumber}
+                </p>
+                <div className="d-flex justify-content-between">
+                  <button onClick={() => setShowModal(true)} className="btn">
+                    <UserPen className="edit-icon" color="green" />
+                  </button>
+                  <button className="btn">
+                    {" "}
+                    <Trash2 className="delete-icon" color="red" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            !error && <p>Caricamento profilo... </p>
+          )}
+
+          <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Modifica Profilo</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group className="mb-3">
+                  <Form.Label>Nome</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName || ""}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Cognome</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName || ""}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    value={formData.email || ""}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Telefono</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="phoneNumber"
+                    value={formData.phoneNumber || ""}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setShowModal(false)}>
+                Annulla
+              </Button>
+              <Button variant="success" onClick={updateUser}>
+                Salva
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default UserProfile;

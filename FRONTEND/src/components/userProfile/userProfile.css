@@ -1,0 +1,31 @@
+.custom-card-profile {
+  width: 400px;
+}
+
+.edit-icon {
+  transition: transform 0.2s ease;
+}
+
+.delete-icon {
+  transition: transform 0.2s ease;
+}
+
+.btn:hover .edit-icon {
+  transform: scale(1.2);
+}
+
+.btn:hover .delete-icon {
+  transform: scale(1.2);
+}
+
+.image-profile-container {
+  margin: auto;
+  width: 100px;
+  height: 100px;
+}
+
+@media (max-width: 576px) {
+  .custom-card-profile {
+    width: 100%;
+  }
+}

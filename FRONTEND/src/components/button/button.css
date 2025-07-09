@@ -1,0 +1,25 @@
+.custom-btn {
+  border-radius: 10px;
+  border: none;
+  padding: 15px;
+  border-radius: 25px;
+  margin-bottom: 10px;
+}
+
+.custom-btn.success {
+  background-color: rgb(25, 135, 84);
+  color: white;
+}
+
+.custom-btn.transparent {
+  background-color: transparent;
+  color: rgb(25, 135, 84);
+}
+
+.custom-btn.normal {
+  background-color: transparent;
+}
+
+.custom-btn.info {
+  background-color: rgb(106, 184, 233);
+}

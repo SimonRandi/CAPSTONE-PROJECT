@@ -1,0 +1,32 @@
+.new-post-form {
+  max-width: 100%;
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
+  padding: 1rem;
+  box-sizing: border-box;
+  border: 2px solid rgb(25, 135, 84) !important;
+}
+
+@media (max-width: 576px) {
+  .new-post-form {
+    padding: 1rem 0.5rem;
+    border: none;
+    box-shadow: none;
+  }
+
+  .new-post-form .form-label {
+    font-size: 1rem;
+  }
+  .new-post-form input,
+  .new-post-form select,
+  .new-post-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .new-post-form .btn {
+    width: 100%;
+    font-size: 1rem;
+  }
+}

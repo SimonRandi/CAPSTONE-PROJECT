@@ -1,0 +1,19 @@
+.custom-dropdown {
+  width: 100%;
+  border: 1px solid green;
+  background-color: rgb(25, 135, 84) !important;
+  position: relative;
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: 0.1rem;
+  display: none;
+  position: absolute;
+  z-index: 1000;
+}
