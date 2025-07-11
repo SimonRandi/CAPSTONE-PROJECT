@@ -57,16 +57,7 @@ const Footer = () => {
                         href="mailto:info@adottaunpet.it"
                         className="text-light fs-5 text-decoration-none"
                       >
-                        info@adottaunpet.it
-                      </a>
-                    </p>
-                    <p className="text-center fs-5 text-nowrap">
-                      Telefono:{" "}
-                      <a
-                        href="tel:+393407619106"
-                        className="text-light fs-5 text-decoration-none"
-                      >
-                        +39 3407619106
+                        info@animalranch.it
                       </a>
                     </p>
                   </div>

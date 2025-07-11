@@ -21,7 +21,7 @@ import AboutUsPage from "./components/pages/aboutUs/AboutUsPage";
 const App = () => {
   useEffect(() => {
     AOS.init({
-      duration: 2000,
+      duration: 1000,
       once: false,
     });
   }, []);
