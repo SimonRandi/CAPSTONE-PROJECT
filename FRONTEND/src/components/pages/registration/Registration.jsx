@@ -52,7 +52,9 @@ const Registration = () => {
         throw new Error(data.error || "Errore durante la registrazione");
       }
 
-      setSuccessMessage("Registrazione completata con successo!");
+      setSuccessMessage(
+        "Registrazione completata con successo! Ora verifica la email con il link che ti abbiamo inviato nella tua casella di posta"
+      );
       setTimeout(() => {
         navigate("/login");
       }, 2000);

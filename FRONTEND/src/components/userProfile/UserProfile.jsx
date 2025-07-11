@@ -107,8 +107,8 @@ const UserProfile = () => {
   return (
     <>
       <div className="container">
-        <div className="row ">
-          <h2>Il tuo profilo</h2>
+        <div className="row">
+          <h2 className="p-0">Il tuo profilo</h2>
 
           {error && <p className="text-danger">{error}</p>}
 
