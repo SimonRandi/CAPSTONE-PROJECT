@@ -335,7 +335,7 @@ const deletePost = async (request, response, next) => {
 
 const editPost = async (request, response, next) => {
   try {
-    const id = request.params;
+    const { id } = request.params;
     const userId = request.user.id;
     const updates = request.body;
 
