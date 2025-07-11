@@ -7,6 +7,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState("");
 
@@ -74,6 +75,35 @@ const UserProfile = () => {
       setError(error.message);
     }
   };
+
+  const deleteUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/users/delete/${user._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Errore durante la cancellazione");
+        return;
+      }
+
+      localStorage.removeItem("token");
+      alert("Account eliminato con successo.");
+      window.location.href = "/";
+    } catch (error) {
+      setError("Errore generico");
+    }
+  };
   return (
     <>
       <div className="container">
@@ -104,7 +134,10 @@ const UserProfile = () => {
                   <button onClick={() => setShowModal(true)} className="btn">
                     <UserPen className="edit-icon" color="green" />
                   </button>
-                  <button className="btn">
+                  <button
+                    onClick={() => setShowDeleteModal(true)}
+                    className="btn"
+                  >
                     {" "}
                     <Trash2 className="delete-icon" color="red" />
                   </button>
@@ -165,6 +198,30 @@ const UserProfile = () => {
               </Button>
               <Button variant="success" onClick={updateUser}>
                 Salva
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal
+            show={showDeleteModal}
+            onHide={() => setShowDeleteModal(false)}
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Conferma Eliminazione</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Sei sicuro di voler eliminare definitivamente il tuo account?
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="secondary"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Annulla
+              </Button>
+              <Button variant="danger" onClick={deleteUser}>
+                Elimina
               </Button>
             </Modal.Footer>
           </Modal>
