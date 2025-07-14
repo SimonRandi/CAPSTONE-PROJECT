@@ -26,7 +26,9 @@ const RecentAnimals = () => {
 
   return (
     <div className="container my-5">
-      <h3 className="text-center mb-4">🐾 Annunci Recenti</h3>
+      <h3 className="text-center custom-title mb-4">
+        🐾 <span className="ms-2">Annunci Recenti</span>
+      </h3>
 
       <div className="carousel-container position-relative">
         <div
@@ -55,7 +57,9 @@ const RecentAnimals = () => {
                           <strong>Specie: {animal.species} </strong> <br />
                           <strong>Razza:</strong> {animal.race} <br />
                           <strong>Età:</strong> {animal.age}{" "}
-                          {animal.age === 1 ? "anno" : "anni"}
+                          {animal.age === 1 ? "anno" : "anni"} <br />
+                          <strong>Adotatto:</strong>{" "}
+                          {animal.isAdopted ? "Si" : "No"}
                         </p>
                         <Link
                           to={`/animals/${animal._id}`}
