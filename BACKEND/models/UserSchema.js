@@ -10,6 +10,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    image: {
+      type: String,
+      default: null,
+    },
 
     phoneNumber: {
       type: String,
@@ -37,11 +41,7 @@ const UserSchema = new mongoose.Schema(
       enum: ["Appartamento", "Casa con giardino", "Casa senza giardino"],
       required: true,
     },
-    workHoursPerWeek: {
-      type: Number,
-      min: 0,
-      max: 60,
-    },
+
     emailVerified: {
       type: Boolean,
       default: false,

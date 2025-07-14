@@ -38,9 +38,15 @@ const findAll = async (request, response, next) => {
 
 const createUser = async (request, response, next) => {
   try {
-    const { body } = request;
-    const { userToSave } = await userService.createUser(body);
+    const body = request.body;
+    const imageUrl = request.file?.path;
 
+    const userData = {
+      ...body,
+      image: imageUrl || null,
+    };
+
+    const { userToSave } = await userService.createUser(userData);
     const { password, ...userWithoutPassword } = await userToSave.toObject();
 
     const token = jwt.sign(
@@ -138,6 +144,7 @@ const deleteUser = async (request, response, next) => {
     next(error);
   }
 };
+
 module.exports = {
   createUser,
   findAll,

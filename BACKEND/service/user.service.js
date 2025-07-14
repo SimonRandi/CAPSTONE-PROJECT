@@ -37,6 +37,12 @@ const deleteUser = async (id) => {
 const createUser = async (body) => {
   const alreadyExistUser = await User.findOne({ email: body.email });
 
+  if (!body.password) {
+    const error = new Error("Password mancante");
+    error.statusCode = 400;
+    throw error;
+  }
+
   if (alreadyExistUser) {
     const error = new Error("Email già utilizzata");
     error.statusCode = 409;

@@ -1,6 +1,9 @@
 const AuthService = require("../service/auth.service");
 const jwt = require("jsonwebtoken");
 const User = require("../models/UserSchema");
+const sgMail = require("@sendgrid/mail");
+
+sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 
 const login = async (request, response, next) => {
   try {
@@ -37,22 +40,22 @@ const login = async (request, response, next) => {
   }
 };
 
-const verifyEmail = async (req, res) => {
-  const { token } = req.query;
+const verifyEmail = async (request, response) => {
+  const { token } = request.query;
 
   try {
     const decoded = jwt.verify(token, process.env.EMAIL_SECRET);
     const user = await User.findOne({ email: decoded.email });
 
-    if (!user) return res.status(404).send("Utente non trovato");
-    if (user.emailVerified) return res.send("Email già verificata.");
+    if (!user) return response.status(404).send("Utente non trovato");
+    if (user.emailVerified) return response.send("Email già verificata.");
 
     user.emailVerified = true;
     await user.save();
 
-    res.send("✅ Email verificata con successo!");
+    response.send("✅ Email verificata con successo!");
   } catch (error) {
-    res.status(400).send("❌ Link non valido o scaduto.");
+    response.status(400).send("❌ Link non valido o scaduto.");
   }
 };
 
