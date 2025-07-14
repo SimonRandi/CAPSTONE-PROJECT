@@ -40,7 +40,7 @@ const CatByAge = () => {
   return (
     <BaseLayout>
       <div className="container-fluid">
-        <h2 className="text-center mt-4 mb-4">Cerca il tuo Gatto per Età</h2>
+        <h2 className="text-center p-3">Cerca il tuo Gatto per Età</h2>
         <div className="row">
           <aside className="col-12 col-md-3 mb-4">
             <div className="list-group scrollbar-list">
@@ -76,13 +76,17 @@ const CatByAge = () => {
                   .map((cat) => (
                     <div
                       key={cat._id}
-                      className="col-12 col-md-4 col-lg-3 d-flex mt-3"
+                      className="col-12 col-md-4 col-lg-3 d-flex mb-3"
+                      data-aos="fade-up"
                     >
                       <div className="card shadow-sm rounded-4 overflow-hidden w-100">
                         <img
                           src={
-                            cat.image ||
-                            "https://picsum.photos/400/250?text=No+Image"
+                            Array.isArray(cat.image)
+                              ? cat.image[0] ||
+                                "https://picsum.photos/400/250?text=No+Image"
+                              : cat.image ||
+                                "https://picsum.photos/400/250?text=No+Image"
                           }
                           className="card-img-top"
                           alt={`Foto di ${cat.name}`}
@@ -112,7 +116,7 @@ const CatByAge = () => {
 
                           <p className="text-muted mb-0">
                             <strong>Pubblicato da:</strong>{" "}
-                            {cat.user?.name || "Utente anonimo"}
+                            {cat.user?.firstName || "Utente anonimo"}
                           </p>
                           <div className="mt-auto ">
                             <Link

@@ -6,7 +6,7 @@ const AllDogsPage = () => {
   const [dogs, setDogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchAllDogs = async () => {
+  const AllDogs = async () => {
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -24,24 +24,32 @@ const AllDogsPage = () => {
   };
 
   useEffect(() => {
-    fetchAllDogs();
+    AllDogs();
   }, []);
 
   return (
     <BaseLayout>
       <div className="container">
-        <h2 className="text-center mt-4 mb-4">Tutti i Cani</h2>
+        <h2 className="text-center p-3">Tutti i Cani</h2>
 
         {isLoading && <p>Caricamento...</p>}
 
         {!isLoading && dogs.length > 0 && (
           <div className="row">
             {dogs.map((dog) => (
-              <div key={dog._id} className="col-12 col-md-4 col-lg-3 mb-4">
+              <div
+                key={dog._id}
+                className="col-12 col-md-4 col-lg-3 mb-3"
+                data-aos="fade-up"
+              >
                 <div className="card shadow-sm rounded-4 overflow-hidden h-100">
                   <img
                     src={
-                      dog.image || "https://picsum.photos/400/250?text=No+Image"
+                      Array.isArray(dog.image)
+                        ? dog.image[0] ||
+                          "https://picsum.photos/400/250?text=No+Image"
+                        : dog.image ||
+                          "https://picsum.photos/400/250?text=No+Image"
                     }
                     className="card-img-top"
                     alt={`Foto di ${dog.name}`}
@@ -61,7 +69,7 @@ const AllDogsPage = () => {
                     </p>
                     <p className="text-muted">
                       <strong>Pubblicato da:</strong>{" "}
-                      {dog.user?.name || "Utente anonimo"}
+                      {dog.user?.firstName || "Utente anonimo"}
                     </p>
                     <div className="mt-auto ">
                       <Link

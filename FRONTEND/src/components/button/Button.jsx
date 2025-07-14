@@ -1,10 +1,32 @@
 import React from "react";
 import "../button/button.css";
 
-const Button = (props) => {
+const Button = ({
+  onClick,
+  variant,
+  text,
+  isLoading = false,
+  type = "button",
+}) => {
   return (
-    <button onClick={props.onClick} className={`custom-btn ${props.variant}`}>
-      {props.text}
+    <button
+      onClick={onClick}
+      type={type}
+      className={`custom-btn ${variant}`}
+      disabled={isLoading}
+    >
+      {isLoading ? (
+        <>
+          <span
+            className="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Caricamento...
+        </>
+      ) : (
+        text
+      )}
     </button>
   );
 };

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../../components/newPost/newPost.css";
+import Button from "../button/Button";
 
 const NewPost = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +24,8 @@ const NewPost = () => {
       region: "",
     },
   });
-
+  0;
+  const [isLoading, setIsLoading] = useState(false);
   const [imagesFiles, setImagesFiles] = useState([]);
 
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -38,6 +40,7 @@ const NewPost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const token = localStorage.getItem("token");
@@ -128,6 +131,8 @@ const NewPost = () => {
     } catch (error) {
       console.error(error);
       setMessage({ type: "error", text: error.message });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -383,9 +388,12 @@ const NewPost = () => {
         />
       </div>
 
-      <button type="submit" className="btn btn-success">
-        Pubblica annuncio
-      </button>
+      <Button
+        isLoading={isLoading}
+        type="submit"
+        text=" Pubblica"
+        variant="success"
+      />
     </form>
   );
 };

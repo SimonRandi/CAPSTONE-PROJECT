@@ -6,8 +6,8 @@
 .sidebar {
   background-color: #198754;
   color: white;
-  padding: 2rem 1rem;
-  min-width: 100px;
+
+  width: 65px;
 }
 
 .sidebar h3 {

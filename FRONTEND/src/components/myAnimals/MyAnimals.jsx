@@ -6,7 +6,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 
 const MyAnimals = () => {
   const [myAnimals, setMyAnimals] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -59,7 +59,7 @@ const MyAnimals = () => {
     } catch (error) {
       setError(error.message);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -164,9 +164,9 @@ const MyAnimals = () => {
       {successMessage && (
         <div className="alert alert-success text-center">{successMessage}</div>
       )}
-      {loading && <p>Caricamento...</p>}
+      {isLoading && <p>Caricamento...</p>}
       {error && <div className="alert alert-danger">{error}</div>}
-      {!loading && !error && myAnimals.length === 0 && (
+      {!isLoading && !error && myAnimals.length === 0 && (
         <p className="text-muted text-center">Nessun annuncio pubblicato.</p>
       )}
       <div className="row">
@@ -441,7 +441,11 @@ const MyAnimals = () => {
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>
             Annulla
           </Button>
-          <Button variant="success" onClick={handleEditSubmit}>
+          <Button
+            isLoading={isLoading}
+            variant="success"
+            onClick={handleEditSubmit}
+          >
             Salva
           </Button>
         </Modal.Footer>

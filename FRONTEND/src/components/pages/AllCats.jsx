@@ -5,7 +5,7 @@ const AllCatsPage = () => {
   const [cats, setCats] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchCats = async () => {
+  const Cats = async () => {
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -27,13 +27,13 @@ const AllCatsPage = () => {
   };
 
   useEffect(() => {
-    fetchCats();
+    Cats();
   }, []);
 
   return (
     <BaseLayout>
       <div className="container">
-        <h2 className="text-center my-4">Tutti i Gatti</h2>
+        <h2 className="text-center p-3">Tutti i Gatti</h2>
 
         {isLoading && <p className="text-center">Caricamento...</p>}
 
@@ -42,13 +42,17 @@ const AllCatsPage = () => {
             {cats.map((cat) => (
               <div
                 key={cat._id}
-                className="col-12 col-md-4 col-lg-3 d-flex mt-3"
+                className="col-12 col-md-4 col-lg-3 d-flex mb-3"
                 data-aos="fade-up"
               >
                 <div className="card shadow-sm rounded-4 overflow-hidden w-100">
                   <img
                     src={
-                      cat.image || "https://picsum.photos/400/250?text=No+Image"
+                      Array.isArray(cat.image)
+                        ? cat.image[0] ||
+                          "https://picsum.photos/400/250?text=No+Image"
+                        : cat.image ||
+                          "https://picsum.photos/400/250?text=No+Image"
                     }
                     className="card-img-top"
                     alt={`Foto di ${cat.name}`}
@@ -72,7 +76,7 @@ const AllCatsPage = () => {
 
                     <p className="text-muted mb-0">
                       <strong>Pubblicato da:</strong>{" "}
-                      {cat.user?.name || "Utente anonimo"}
+                      {cat.user?.firstName || "Utente anonimo"}
                     </p>
                     <div className="mt-auto ">
                       <Link

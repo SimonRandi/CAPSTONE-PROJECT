@@ -57,7 +57,7 @@ const Footer = () => {
                         href="mailto:info@adottaunpet.it"
                         className="text-light fs-5 text-decoration-none"
                       >
-                        info@animalranch.it
+                        info.animalranch@gmail.com
                       </a>
                     </p>
                   </div>

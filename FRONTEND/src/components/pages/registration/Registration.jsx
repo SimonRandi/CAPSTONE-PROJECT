@@ -12,11 +12,12 @@ const Registration = () => {
     password: "",
     dateOfBirth: "",
     gender: "",
-    role: "",
+
     housingType: "",
-    workHoursPerWeek: "",
   });
 
+  const [profileImage, setProfileImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
@@ -33,16 +34,26 @@ const Registration = () => {
     e.preventDefault();
     setError(null);
     setSuccessMessage("");
+    setIsLoading(true);
 
     try {
+      const form = new FormData();
+
+      for (let key in formData) {
+        if (formData[key]) {
+          form.append(key, formData[key]);
+        }
+      }
+
+      if (profileImage) {
+        form.append("profileImage", profileImage);
+      }
+
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_BASE_URL}/users/create`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+          body: form,
         }
       );
 
@@ -53,13 +64,15 @@ const Registration = () => {
       }
 
       setSuccessMessage(
-        "Registrazione completata con successo! Ora verifica la email con il link che ti abbiamo inviato nella tua casella di posta"
+        "Registrazione completata! Controlla la tua email per confermare l'account."
       );
       setTimeout(() => {
         navigate("/login");
-      }, 2000);
+      }, 4000);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -175,6 +188,17 @@ const Registration = () => {
                 <option value="Casa senza giardino">Casa senza giardino</option>
               </select>
             </div>
+
+            <div className="col-md-6">
+              <label className="form-label">Immagine profilo</label>
+              <input
+                type="file"
+                accept="image/*"
+                name="profileImage"
+                className="form-control"
+                onChange={(e) => setProfileImage(e.target.files[0])}
+              />
+            </div>
           </div>
 
           {error && <p className="text-danger mt-3">{error}</p>}
@@ -183,7 +207,12 @@ const Registration = () => {
           )}
 
           <div className="mt-4 d-flex justify-content-center">
-            <Button type="submit" text="Registrati" variant="success" />
+            <Button
+              isLoading={isLoading}
+              type="submit"
+              text="Registrati"
+              variant="success"
+            />
           </div>
         </form>
       </div>

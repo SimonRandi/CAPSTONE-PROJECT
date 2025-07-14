@@ -8,7 +8,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [unverifiedEmail, setUnverifiedEmail] = useState(null);
@@ -27,6 +27,7 @@ const Login = () => {
     setError(null);
     setSuccessMessage("");
     setUnverifiedEmail(null);
+    setIsLoading(true);
 
     try {
       const response = await fetch(
@@ -69,6 +70,8 @@ const Login = () => {
       }, 2000);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -112,7 +115,12 @@ const Login = () => {
 
           <div className="d-flex justify-content-center mt-4">
             <div className="mt-4 d-flex justify-content-center">
-              <Button type="submit" text="Accedi" variant="success" />
+              <Button
+                isLoading={isLoading}
+                type="submit"
+                text="Accedi"
+                variant="success"
+              />
             </div>
           </div>
         </form>

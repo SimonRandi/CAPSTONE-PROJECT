@@ -41,7 +41,7 @@ const DogByAge = () => {
   return (
     <BaseLayout>
       <div className="container-fluid">
-        <h2 className="text-center mt-4 mb-4">Cerca il tuo Cane per Età</h2>
+        <h2 className="text-center p-3">Cerca il tuo Cane per Età</h2>
         <div className="row">
           <aside className="col-12 col-md-3 mb-4 ">
             <div className="list-group scrollbar-list">
@@ -77,17 +77,20 @@ const DogByAge = () => {
                   .map((dog) => (
                     <div
                       key={dog._id}
-                      className="col-12 col-md-4 col-lg-3 d-flex mt-3"
+                      className="col-12 col-md-4 col-lg-3 d-flex mb-3"
+                      data-aos="fade-up"
                     >
                       <div className="card shadow-sm rounded-4 overflow-hidden w-100">
                         <img
                           src={
-                            dog.image ||
-                            "https://picsum.photos/400/250?text=No+Image"
+                            Array.isArray(dog.image)
+                              ? dog.image[0] ||
+                                "https://picsum.photos/400/250?text=No+Image"
+                              : dog.image ||
+                                "https://picsum.photos/400/250?text=No+Image"
                           }
                           className="card-img-top"
                           alt={`Foto di ${dog.name}`}
-                          style={{ height: "200px", objectFit: "cover" }}
                         />
                         <div className="card-body">
                           <h4 className="card-title fw-bold mb-2">
@@ -114,7 +117,7 @@ const DogByAge = () => {
 
                           <p className="text-muted mb-0">
                             <strong>Pubblicato da:</strong>{" "}
-                            {dog.user?.name || "Utente anonimo"}
+                            {dog.user?.firstName || "Utente anonimo"}
                           </p>
                           <div className="mt-auto ">
                             <Link

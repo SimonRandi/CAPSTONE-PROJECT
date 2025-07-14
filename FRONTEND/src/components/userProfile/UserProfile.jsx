@@ -116,19 +116,27 @@ const UserProfile = () => {
             <div className="col-12 mt-5">
               <div className="card custom-card-profile">
                 <div className="image-profile-container d-flex justify-content-center">
-                  <img className="img-fluid " src={ProfilePhoto} alt="" />
+                  <img
+                    className="img-fluid custom-profile-image "
+                    src={user.image}
+                    alt=""
+                  />
                 </div>
-                <p>
+                <p className="mt-1">
                   <strong>Nome:</strong> {user.firstName}
                 </p>
                 <p>
                   <strong>Cognome:</strong> {user.lastName}
                 </p>
                 <p>
-                  <strong>Email:</strong> {user.email}
+                  <strong>Data di nascita:</strong>{" "}
+                  {user.dateOfBirth.slice(0, 10)}
                 </p>
                 <p>
                   <strong>Telefono:</strong> {user.phoneNumber}
+                </p>
+                <p>
+                  <strong>Abitazione:</strong> {user.housingType}
                 </p>
                 <div className="d-flex justify-content-between">
                   <button onClick={() => setShowModal(true)} className="btn">
@@ -173,11 +181,11 @@ const UserProfile = () => {
                   />
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label>Data di nascita</Form.Label>
                   <Form.Control
-                    type="email"
-                    name="email"
-                    value={formData.email || ""}
+                    type="text"
+                    name="dateOfBirth"
+                    value={formData.dateOfBirth || ""}
                     onChange={handleChange}
                   />
                 </Form.Group>
@@ -189,6 +197,23 @@ const UserProfile = () => {
                     value={formData.phoneNumber || ""}
                     onChange={handleChange}
                   />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Abitazione</Form.Label>
+                  <Form.Select
+                    name="housingType"
+                    value={formData.housingType || ""}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Seleziona il tipo di abitazione</option>
+                    <option value="Appartamento">Appartamento</option>
+                    <option value="Casa con giardino">Casa con giardino</option>
+                    <option value="Casa senza giardino">
+                      Casa senza giardino
+                    </option>
+                    <option value="Altro">Altro</option>
+                  </Form.Select>
                 </Form.Group>
               </Form>
             </Modal.Body>

@@ -8,9 +8,11 @@ import NewPost from "../../newPost/NewPost";
 import MyAnimals from "../../myAnimals/MyAnimals";
 import { User, Plus, BookOpenText, LogOut } from "lucide-react";
 import UserProfile from "../../userProfile/UserProfile";
+import Button from "../../button/Button";
 
 const Dashboard = () => {
   const [section, setSection] = useState("home");
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const [user, setUser] = useState({ firstName: "", surName: "" });
   const navigate = useNavigate();
 
@@ -54,7 +56,7 @@ const Dashboard = () => {
   return (
     <BaseLayout>
       <div className="dashboard-container">
-        <aside className="sidebar">
+        <aside className={`sidebar ${isSideBarOpen ? "open" : "collapsed"}`}>
           <ul>
             <li className="fs-3" onClick={() => setSection("home")}>
               {" "}
