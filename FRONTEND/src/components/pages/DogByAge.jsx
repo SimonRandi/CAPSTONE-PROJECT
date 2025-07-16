@@ -7,26 +7,29 @@ const DogByAge = () => {
   const [dogs, setDogs] = useState([]);
   const [selectedAge, setSelectedAge] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 4;
 
   const allAges = Array.from({ length: 15 }, (_, i) => i + 1);
 
-  const searchDogs = async () => {
+  const fetchDogs = async (page = 1) => {
     try {
       setIsLoading(true);
-
       let url = `${
         import.meta.env.VITE_SERVER_BASE_URL
-      }/animals/search/species?species=cane`;
+      }/animals/search/species?species=Cane&page=${page}&limit=${limit}`;
 
       if (selectedAge) {
         url = `${
           import.meta.env.VITE_SERVER_BASE_URL
-        }/animals/search/age?age=${selectedAge}&species=cane`;
+        }/animals/search/age?age=${selectedAge}&species=Cane&page=${page}&limit=${limit}`;
       }
 
       const response = await fetch(url);
       const data = await response.json();
-      setDogs(data.animal || []);
+      setDogs(data.animals || []);
+      setTotalPages(data.totalPages || 1);
     } catch (error) {
       console.error("Errore nel caricamento:", error.message || error);
     } finally {
@@ -35,8 +38,32 @@ const DogByAge = () => {
   };
 
   useEffect(() => {
-    searchDogs();
+    setCurrentPage(1);
   }, [selectedAge]);
+
+  useEffect(() => {
+    fetchDogs(currentPage);
+  }, [selectedAge, currentPage]);
+
+  const renderPagination = () => {
+    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+    return (
+      <div className="d-flex mb-2 justify-content-center mt-4">
+        {pages.map((page) => (
+          <button
+            key={page}
+            className={`btn btn-sm mx-1 ${
+              page === currentPage ? "btn-success" : "btn-outline-success"
+            }`}
+            onClick={() => setCurrentPage(page)}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <BaseLayout>
@@ -71,10 +98,9 @@ const DogByAge = () => {
             {isLoading && <p>Caricamento...</p>}
 
             {!isLoading && dogs.length > 0 && (
-              <div className="row">
-                {dogs
-                  .filter((dog) => dog.species === "Cane")
-                  .map((dog) => (
+              <>
+                <div className="row">
+                  {dogs.map((dog) => (
                     <div
                       key={dog._id}
                       className="col-12 col-md-4 col-lg-3 d-flex mb-3"
@@ -124,7 +150,6 @@ const DogByAge = () => {
                               className="text-decoration-none text-success "
                               to={`/animals/${dog._id}`}
                             >
-                              {" "}
                               Piu informazioni
                             </Link>
                           </div>
@@ -132,7 +157,9 @@ const DogByAge = () => {
                       </div>
                     </div>
                   ))}
-              </div>
+                </div>
+                {renderPagination()}
+              </>
             )}
 
             {!isLoading && dogs.length === 0 && (

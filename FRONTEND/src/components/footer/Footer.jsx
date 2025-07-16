@@ -5,7 +5,7 @@ const Footer = () => {
     <>
       <div className="d-flex justify-content-center align-items-center gap-5 fs-3  p-5 bg-success">
         <div className="container">
-          <div className="row ">
+          <div data-aos="fade-up" className="row ">
             <div className="col-12">
               <div className="d-flex flex-column align-items-center ">
                 <Link

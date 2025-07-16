@@ -12,7 +12,7 @@ const RecentAnimals = () => {
           `${import.meta.env.VITE_SERVER_BASE_URL}/animals`
         );
         const data = await response.json();
-        const sorted = [...data.animals].reverse().slice(0, 6);
+        const sorted = [...data.animals].reverse().slice(0, 4);
         setAnimals(sorted);
       } catch (err) {
         console.error("Errore nel caricamento:", err.message);
@@ -40,7 +40,7 @@ const RecentAnimals = () => {
             <div className="carousel-item active">
               <div className="row">
                 {animals.map((animal) => (
-                  <div className="col-md-4" key={animal._id}>
+                  <div className="col-md-3" key={animal._id}>
                     <div className="card mb-3 shadow">
                       <img
                         src={

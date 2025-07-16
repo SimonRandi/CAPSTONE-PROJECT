@@ -6,26 +6,30 @@ const CatByAge = () => {
   const [cats, setCats] = useState([]);
   const [selectedAge, setSelectedAge] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 4;
 
   const allAges = Array.from({ length: 15 }, (_, i) => i + 1);
 
-  const searchCats = async () => {
+  const fetchCats = async (page = 1) => {
     try {
       setIsLoading(true);
 
       let url = `${
         import.meta.env.VITE_SERVER_BASE_URL
-      }/animals/search/species?species=gatto`;
+      }/animals/search/species?species=Gatto&page=${page}&limit=${limit}`;
 
       if (selectedAge) {
         url = `${
           import.meta.env.VITE_SERVER_BASE_URL
-        }/animals/search/age?age=${selectedAge}&species=gatto`;
+        }/animals/search/age?age=${selectedAge}&species=Gatto&page=${page}&limit=${limit}`;
       }
 
       const response = await fetch(url);
       const data = await response.json();
-      setCats(data.animal || []);
+      setCats(data.animals || []);
+      setTotalPages(data.totalPages || 1);
     } catch (error) {
       console.error("Errore nel caricamento:", error.message || error);
     } finally {
@@ -34,8 +38,30 @@ const CatByAge = () => {
   };
 
   useEffect(() => {
-    searchCats();
+    setCurrentPage(1);
   }, [selectedAge]);
+
+  useEffect(() => {
+    fetchCats(currentPage);
+  }, [selectedAge, currentPage]);
+
+  const renderPagination = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <button
+          key={i}
+          className={`btn btn-sm mx-1 ${
+            i === currentPage ? "btn-success" : "btn-outline-success"
+          }`}
+          onClick={() => setCurrentPage(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+    return <div className="d-flex justify-content-center mt-4">{pages}</div>;
+  };
 
   return (
     <BaseLayout>
@@ -70,10 +96,9 @@ const CatByAge = () => {
             {isLoading && <p>Caricamento...</p>}
 
             {!isLoading && cats.length > 0 && (
-              <div className="row">
-                {cats
-                  .filter((cat) => cat.species === "Gatto")
-                  .map((cat) => (
+              <>
+                <div className="row">
+                  {cats.map((cat) => (
                     <div
                       key={cat._id}
                       className="col-12 col-md-4 col-lg-3 d-flex mb-3"
@@ -95,7 +120,6 @@ const CatByAge = () => {
                           <h4 className="card-title fw-bold mb-2">
                             {cat.name}
                           </h4>
-
                           <p className="mb-2">
                             <span className="badge bg-dark me-2">
                               {cat.breed}
@@ -104,34 +128,32 @@ const CatByAge = () => {
                               {cat.race}
                             </span>
                           </p>
-
                           <p className="mb-2">
                             <strong>Età:</strong> {cat.age}{" "}
                             {cat.age === 1 ? "anno" : "anni"}
                           </p>
-
                           <p className="card-text mb-3">
                             {cat.bio || "Nessuna descrizione disponibile."}
                           </p>
-
                           <p className="text-muted mb-0">
                             <strong>Pubblicato da:</strong>{" "}
                             {cat.user?.firstName || "Utente anonimo"}
                           </p>
-                          <div className="mt-auto ">
+                          <div className="mt-auto">
                             <Link
-                              className="text-decoration-none text-success "
+                              className="text-decoration-none text-success"
                               to={`/animals/${cat._id}`}
                             >
-                              {" "}
-                              Piu informazioni
+                              Più informazioni
                             </Link>
                           </div>
                         </div>
                       </div>
                     </div>
                   ))}
-              </div>
+                </div>
+                {renderPagination()}
+              </>
             )}
 
             {!isLoading && cats.length === 0 && (
