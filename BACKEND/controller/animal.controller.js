@@ -73,36 +73,95 @@ const findById = async (request, response, next) => {
 
 const findBySpecies = async (request, response, next) => {
   try {
-    const { species } = request.query;
-    const animal = await animalService.findBySpecies(species);
+    const {
+      species,
+      page = 1,
+      limit = 8,
+      field = "name",
+      order = "asc",
+    } = request.query;
 
-    if (!animal) {
-      throw new AnimalsNotFoundException();
+    if (!species) {
+      return response.status(400).send({
+        statusCode: 400,
+        message: "Parametro species mancante.",
+      });
     }
 
-    response.status(200).send({
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+
+    const query = { species };
+
+    const totalAnimals = await Animal.countDocuments(query);
+    const totalPages = Math.ceil(totalAnimals / limitNum);
+
+    const animals = await Animal.find(query)
+      .populate("user", "firstName")
+      .sort({ [field]: order === "asc" ? 1 : -1 })
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum);
+
+    return response.status(200).send({
       statusCode: 200,
       message: `Ecco tutti i Pet della specie ${species}`,
-      animal,
+      currentPage: pageNum,
+      totalPages,
+      totalAnimals,
+      animals,
     });
   } catch (error) {
+    console.error("Errore in findBySpecies:", error);
     next(error);
   }
 };
 
 const findByRace = async (request, response, next) => {
   try {
-    const { race } = request.query;
-    const animal = await animalService.findByRace(race);
+    const {
+      race,
+      species,
+      page = 1,
+      limit = 8,
+      field = "name",
+      order = "asc",
+    } = request.query;
 
-    if (!animal) {
+    if (!race) {
+      return response.status(400).send({
+        statusCode: 400,
+        message: "Il parametro 'race' è obbligatorio.",
+      });
+    }
+
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+
+    const query = {
+      race: new RegExp(`^${race}$`, "i"),
+      ...(species && { species: new RegExp(`^${species}$`, "i") }),
+    };
+
+    const totalAnimals = await Animal.countDocuments(query);
+    const totalPages = Math.ceil(totalAnimals / limitNum);
+
+    const animals = await Animal.find(query)
+      .populate("user", "firstName")
+      .sort({ [field]: order === "asc" ? 1 : -1 })
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum);
+
+    if (!animals || animals.length === 0) {
       throw new AnimalsNotFoundException();
     }
 
     response.status(200).send({
       statusCode: 200,
       message: `Ecco tutti i Pet di razza ${race}`,
-      animal,
+      currentPage: pageNum,
+      totalPages,
+      totalAnimals,
+      animals,
     });
   } catch (error) {
     next(error);
@@ -136,8 +195,7 @@ const findByAgeRange = async (request, response, next) => {
 };
 const findByAge = async (request, response, next) => {
   try {
-    const { age, species } = request.query;
-    console.log(age);
+    const { age, species, page = 1, limit = 8 } = request.query;
 
     if (!age || isNaN(age)) {
       return response.status(400).send({
@@ -146,16 +204,30 @@ const findByAge = async (request, response, next) => {
       });
     }
 
-    const animal = await animalService.findByAge(Number(age), species);
+    const query = { age: Number(age) };
+    if (species) {
+      query.species = species;
+    }
 
-    if (!animal || animal.length === 0) {
+    const totalAnimals = await Animal.countDocuments(query);
+    const totalPages = Math.ceil(totalAnimals / limit);
+
+    const animals = await Animal.find(query)
+      .populate("user", "firstName")
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    if (!animals || animals.length === 0) {
       throw new AnimalsNotFoundException();
     }
 
     response.status(200).send({
       statusCode: 200,
       message: `Ecco tutti i Pet di età ${age} anni`,
-      animal,
+      currentPage: Number(page),
+      totalPages,
+      totalAnimals,
+      animals,
     });
   } catch (error) {
     next(error);
@@ -164,15 +236,35 @@ const findByAge = async (request, response, next) => {
 
 const findByBreed = async (request, response, next) => {
   try {
-    const { breed, species } = request.query;
-    const animal = await animalService.findByBreed(breed, species);
-    if (!animal) {
-      throw new AnimalsNotFoundException();
-    }
+    const {
+      breed,
+      species,
+      page = 1,
+      limit = 8,
+      field = "name",
+      order = "asc",
+    } = request.query;
+
+    const query = {};
+    if (breed) query.breed = breed;
+    if (species) query.species = species;
+
+    const totalAnimals = await Animal.countDocuments(query);
+    const totalPages = Math.ceil(totalAnimals / limit);
+
+    const animals = await Animal.find(query)
+      .populate("user", "firstName")
+      .sort({ [field]: order === "asc" ? 1 : -1 })
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
     response.status(200).send({
       statusCode: 200,
       message: `Ecco tutti i Pet di taglia ${breed}`,
-      animal,
+      page: Number(page),
+      totalPages,
+      totalAnimals,
+      animals,
     });
   } catch (error) {
     next(error);
