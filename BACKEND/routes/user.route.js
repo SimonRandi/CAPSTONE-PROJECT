@@ -12,7 +12,11 @@ users.post(
   userController.createUser
 );
 users.put("/edit/:id", userController.updateUser);
-users.patch("/edit/:id", userController.updateUser);
+users.patch(
+  "/edit/:id",
+  cloudUpload.single("image"),
+  userController.updateUser
+);
 users.delete("/delete/:id", userController.deleteUser);
 
 module.exports = users;

@@ -48,6 +48,10 @@ const createUser = async (request, response, next) => {
 
     const { userToSave } = await userService.createUser(userData);
     const { password, ...userWithoutPassword } = await userToSave.toObject();
+    if (userWithoutPassword.dateOfBirth) {
+      const dob = new Date(userWithoutPassword.dateOfBirth);
+      userWithoutPassword.dateOfBirth = dob.toLocaleDateString("it-IT");
+    }
 
     const token = jwt.sign(
       { email: userToSave.email },
@@ -108,7 +112,11 @@ const getMyProfile = async (request, response, next) => {
 const updateUser = async (request, response, next) => {
   try {
     const { id } = request.params;
-    const { body } = request;
+    const { body, file } = request;
+
+    if (file) {
+      body.image = file.path;
+    }
 
     const userToUpdate = await userService.updateUser(body, id);
 
