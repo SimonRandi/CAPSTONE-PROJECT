@@ -24,17 +24,31 @@ const NewPost = () => {
       region: "",
     },
   });
-  0;
+
   const [isLoading, setIsLoading] = useState(false);
   const [imagesFiles, setImagesFiles] = useState([]);
-
   const [message, setMessage] = useState({ type: "", text: "" });
+
+  const capitalizeWords = (str) =>
+    str
+      .toLowerCase()
+      .split(" ")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+    let newValue = value;
+
+    // Capitalizza la razza
+    if (name === "race") {
+      newValue = capitalizeWords(value);
+    }
+
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "checkbox" ? checked : newValue,
     });
   };
 
@@ -139,7 +153,7 @@ const NewPost = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="new-post-form container mt-4 p-3 p-md-4  rounded shadow bg-white"
+      className="new-post-form container mt-4 p-3 p-md-4 rounded shadow bg-white"
     >
       <h2 className="mb-4">Crea un annuncio di adozione</h2>
 
@@ -160,6 +174,7 @@ const NewPost = () => {
           type="text"
           className="form-control"
           name="name"
+          minLength={2}
           value={formData.name}
           onChange={handleChange}
           required
@@ -318,6 +333,7 @@ const NewPost = () => {
           onChange={(e) => setImagesFiles(Array.from(e.target.files))}
         />
       </div>
+
       <h5 className="mt-4">Dove si trova l’animale?</h5>
 
       <div className="mb-3">
@@ -391,7 +407,7 @@ const NewPost = () => {
       <Button
         isLoading={isLoading}
         type="submit"
-        text=" Pubblica"
+        text="Pubblica"
         variant="success"
       />
     </form>

@@ -12,17 +12,28 @@ const DogByRacePage = () => {
   const limit = 4;
 
   const allRaces = [
-    "Pinscher",
-    "Bulldog",
     "Labrador",
-    "Segugio",
-    "Beagle",
-    "Boxer",
-    "Shih Tzu",
-    "Dobermann",
-    "Husky",
-    "Chihuahua",
     "Golden Retriever",
+    "Pastore Tedesco",
+    "Bulldog Francese",
+    "Beagle",
+    "Barboncino",
+    "Carlino",
+    "Chihuahua",
+    "Dobermann",
+    "Alano",
+    "Cocker Spaniel",
+    "Jack Russell Terrier",
+    "Shih Tzu",
+    "Husky Siberiano",
+    "Border Collie",
+    "Bassotto",
+    "Setter Irlandese",
+    "Akita Inu",
+    "Maltese",
+    "Rottweiler",
+    "Pinscher",
+    "Meticcio",
   ];
 
   const searchByRace = async (page = 1) => {
