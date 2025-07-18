@@ -150,8 +150,8 @@ const UserProfile = () => {
                   />
                 </div>
                 <ul className="list-untyled text-center mt-4">
-                  <li className="mt-1 heading list-group-item">
-                    <>Nome:</> {user.firstName}
+                  <li className="mt-1 list-group-item">
+                    Nome: {user.firstName}
                   </li>
                   <li className="list-group-item">Cognome: {user.lastName}</li>
                   <li className="list-group-item">
