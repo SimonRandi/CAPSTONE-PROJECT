@@ -89,6 +89,7 @@ const Registration = () => {
                 type="text"
                 name="firstName"
                 required
+                minLength={3}
                 className="form-control"
                 value={formData.firstName}
                 onChange={handleChange}
@@ -100,6 +101,7 @@ const Registration = () => {
                 type="text"
                 name="lastName"
                 required
+                minLength={3}
                 className="form-control"
                 value={formData.lastName}
                 onChange={handleChange}
@@ -125,6 +127,7 @@ const Registration = () => {
                 type="tel"
                 name="phoneNumber"
                 required
+                min={10}
                 className="form-control"
                 value={formData.phoneNumber}
                 onChange={handleChange}

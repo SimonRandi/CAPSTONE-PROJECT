@@ -56,7 +56,7 @@ const Dashboard = () => {
   return (
     <BaseLayout>
       <div className="dashboard-container">
-        <aside className={`sidebar ${isSideBarOpen ? "open" : "collapsed"}`}>
+        <aside className="sidebar">
           <ul>
             <li className="fs-3" onClick={() => setSection("home")}>
               {" "}

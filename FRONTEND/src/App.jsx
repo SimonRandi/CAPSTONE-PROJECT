@@ -17,6 +17,7 @@ import Login from "./components/pages/login/Login";
 import Dashboard from "./components/pages/dashboard/Dashboard";
 import VerificationEmailPage from "./components/pages/verificationEmail/VerificationEmailPage";
 import AboutUsPage from "./components/pages/aboutUs/AboutUsPage";
+import NotFoundPage from "./components/pages/notFoundPage/NotFoundPage";
 
 const App = () => {
   useEffect(() => {
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="/cats/race" element={<CatByRace />}></Route>
           <Route path="/cats/age" element={<CatByAge />}></Route>
           <Route path="/about-us" element={<AboutUsPage />}></Route>
+          <Route path="*" element={<NotFoundPage />}></Route>
         </Routes>
       </BrowserRouter>
     </>

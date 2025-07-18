@@ -3,6 +3,8 @@ import BaseLayout from "../../layout/BaseLayout";
 import Button from "../../button/Button";
 import { Link } from "react-router-dom";
 import "../aboutUs/aboutUs.css";
+import siriusAndMe from "../../../../img/me+sirius.jpeg";
+import niceAndMe from "../../../../img/me+nice.jpeg";
 
 const AboutUsPage = () => {
   const handleClick = () => {
@@ -20,7 +22,7 @@ const AboutUsPage = () => {
               diventata anche il mio lavoro. Quando mi è stato chiesto di
               presentare un progetto che mi rispecchiasse, ho avuto l'idea di
               creare un posto dove i tanti amici in difficoltà possano trovare
-              la famiglia giusta per loro. E proprio cosi che è nato{" "}
+              la famiglia giusta per loro. E' proprio cosi che è nato{" "}
               <Link
                 className="text-decoration-none navbar-brand fs-3  mx-auto navbar-center-logo fw-bold text-danger"
                 to="/"
@@ -33,8 +35,8 @@ const AboutUsPage = () => {
           <div className="row ">
             <div data-aos="fade-left" className="col-md-6 order-2 ">
               <img
-                src="https://images.unsplash.com/photo-1558788353-f76d92427f16"
-                alt="Team che ama gli animali"
+                src={siriusAndMe}
+                alt="Sirius and me"
                 className="img-fluid main-image rounded shadow"
               />
             </div>
@@ -42,12 +44,13 @@ const AboutUsPage = () => {
               data-aos="fade-right"
               className="col-md-6 heading d-flex flex-column justify-content-center fs-3 order-1"
             >
-              <h3 className="mb-3 text-center heading">La mia Famiglia</h3>
-              <p className="text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repudiandae molestiae sequi totam, ad recusandae deserunt
-                reiciendis officia asperiores quos adipisci quam natus dolorum
-                amet fuga, ut molestias doloribus quas nemo!
+              <h3 className="mb-3 heading">La mia Famiglia</h3>
+              <p className="">
+                Lui è sirius, il mio fedele amico.
+                <br />
+                E' un segugio vandeano, e l'ho salvato dalla strada quando aveva
+                pochi mesi. <br />
+                Adesso ha 8 anni.
               </p>
             </div>
           </div>
@@ -56,14 +59,14 @@ const AboutUsPage = () => {
         <div className="row mb-5">
           <div data-aos="fade-right" className="col-md-6 order-md-1 order-2">
             <img
-              src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d"
+              src={niceAndMe}
               alt="Adozione di animali"
               className="img-fluid  rounded shadow"
             />
           </div>
           <div
             data-aos="fade-left"
-            className="col-md-6 d-flex flex-column justify-content-center order-md-2 order-1 text-center"
+            className="col-md-6 d-flex flex-column order-md-2 order-1 text-start justify-content-center"
           >
             <h3 className="mb-3 heading">Cosa facciamo</h3>
             <p className="fs-3 heading">

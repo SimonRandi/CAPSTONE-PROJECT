@@ -1,5 +1,5 @@
 .custom-card-profile {
-  width: 400px;
+  width: 500px;
 }
 
 .edit-icon {
@@ -7,10 +7,11 @@
 }
 
 .custom-profile-image {
-  margin-top: 4px;
-  width: 100px !important;
+  margin-top: 20px;
+  width: 150px !important;
   height: 100px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .delete-icon {

@@ -69,80 +69,89 @@ const AnimalDetails = () => {
           <div className="col-md-12 mb-5">
             <AnimalGallery images={animal.image} />
           </div>
+          <div className="row ">
+            <div className="col-md-7">
+              <h2 className="mb-3 text-center">{animal.name}</h2>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">
+                  <strong>Specie:</strong> {animal.species}
+                </li>
+                <li className="list-group-item">
+                  <strong>Razza:</strong> {animal.race}
+                </li>
+                <li className="list-group-item">
+                  <strong>Taglia:</strong> {animal.breed}
+                </li>
+                <li className="list-group-item">
+                  <strong>Età:</strong> {animal.age}{" "}
+                  {animal.age === 1 ? "anno" : "anni"}
+                </li>
+                <li className="list-group-item">
+                  <strong>Vaccinato:</strong>{" "}
+                  {animal.isVaccinated ? "Sì" : "No"}
+                </li>
+                <li className="list-group-item">
+                  <strong>Pedigree:</strong> {animal.hasPedigree ? "Sì" : "No"}
+                </li>
+                <li className="list-group-item">
+                  <strong>Sterilizzato:</strong>{" "}
+                  {animal.isSterilized ? "Sì" : "No"}
+                </li>
+                <li className="list-group-item">
+                  <strong>Adottato:</strong> {animal.isAdopted ? "Sì" : "No"}
+                </li>
 
-          <div className="col-md-12">
-            <h2 className="mb-3 text-center">{animal.name}</h2>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">
-                <strong>Specie:</strong> {animal.species}
-              </li>
-              <li className="list-group-item">
-                <strong>Razza:</strong> {animal.race}
-              </li>
-              <li className="list-group-item">
-                <strong>Taglia:</strong> {animal.breed}
-              </li>
-              <li className="list-group-item">
-                <strong>Età:</strong> {animal.age}{" "}
-                {animal.age === 1 ? "anno" : "anni"}
-              </li>
-              <li className="list-group-item">
-                <strong>Vaccinato:</strong> {animal.isVaccinated ? "Sì" : "No"}
-              </li>
-              <li className="list-group-item">
-                <strong>Pedigree:</strong> {animal.hasPedigree ? "Sì" : "No"}
-              </li>
-              <li className="list-group-item">
-                <strong>Sterilizzato:</strong>{" "}
-                {animal.isSterilized ? "Sì" : "No"}
-              </li>
-              <li className="list-group-item">
-                <strong>Adottato:</strong> {animal.isAdopted ? "Sì" : "No"}
-              </li>
+                <li className="list-group-item">
+                  <strong>Pubblicato da:</strong>{" "}
+                  {animal.user?.firstName || "Utente anonimo"}
+                </li>
 
-              <li className="list-group-item">
-                <strong>Pubblicato da:</strong>{" "}
-                {animal.user?.firstName || "Utente anonimo"}
-              </li>
+                <li className="list-group-item">
+                  <strong>Contatti:</strong>{" "}
+                  <button
+                    className="btn btn-outline-success btn-sm"
+                    onClick={handleShowContact}
+                  >
+                    Visualizza contatti
+                  </button>
+                </li>
+              </ul>
+            </div>
 
-              <li className="list-group-item">
-                <strong>Contatti:</strong>{" "}
-                <button
-                  className="btn btn-outline-success btn-sm"
-                  onClick={handleShowContact}
-                >
-                  Visualizza contatti
-                </button>
-              </li>
-            </ul>
+            <div className="col-md-5">
+              <div className="row flex-column">
+                <div className="col-md-12">
+                  <div className="mt-4">
+                    <h2 className="mb-3">📍 Dove si trova l’animale</h2>
+                    {animal.location ? (
+                      <ul className="list-group">
+                        <li className="list-group-item">
+                          <strong>Via:</strong> {animal.location.street}
+                        </li>
+                        <li className="list-group-item">
+                          <strong>Città:</strong> {animal.location.city}
+                        </li>
+                        <li className="list-group-item">
+                          <strong>CAP:</strong> {animal.location.zipCode}
+                        </li>
+                        <li className="list-group-item">
+                          <strong>Regione:</strong> {animal.location.region}
+                        </li>
+                      </ul>
+                    ) : (
+                      <p>Posizione non disponibile</p>
+                    )}
+                  </div>
+                </div>
+                <div className="col-md-12">
+                  <div className="mt-5">
+                    <h4>Descrizione</h4>
+                    <p>{animal.bio || "Nessuna descrizione disponibile."}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="mt-4">
-          <h5>📍 Dove si trova l’animale</h5>
-          {animal.location ? (
-            <ul className="list-group">
-              <li className="list-group-item">
-                <strong>Via:</strong> {animal.location.street}
-              </li>
-              <li className="list-group-item">
-                <strong>Città:</strong> {animal.location.city}
-              </li>
-              <li className="list-group-item">
-                <strong>CAP:</strong> {animal.location.zipCode}
-              </li>
-              <li className="list-group-item">
-                <strong>Regione:</strong> {animal.location.region}
-              </li>
-            </ul>
-          ) : (
-            <p>Posizione non disponibile</p>
-          )}
-        </div>
-
-        <div className="mt-5">
-          <h4>Descrizione</h4>
-          <p>{animal.bio || "Nessuna descrizione disponibile."}</p>
         </div>
       </div>
 

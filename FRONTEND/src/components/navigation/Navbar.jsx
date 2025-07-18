@@ -16,7 +16,7 @@ const Navbar = () => {
           </button>
 
           <Link
-            className="text-decoration-none navbar-brand fs-3  mx-auto navbar-center-logo fw-bold text-danger"
+            className="text-decoration-none navbar-brand fs-1  mx-auto navbar-center-logo fw-bold text-danger"
             to="/"
           >
             🐶 Animal<span className="text-warning">Ranch</span>🐱

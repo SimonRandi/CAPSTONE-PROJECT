@@ -1,0 +1,22 @@
+.container-not-found {
+  width: 100%;
+  height: 800px;
+  background-color: rgb(250 239 226);
+}
+
+.container-not-found img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 500px) {
+  .container-not-found img {
+    width: 100%;
+    height: auto;
+  }
+
+  .container-not-found {
+    height: 400px;
+  }
+}

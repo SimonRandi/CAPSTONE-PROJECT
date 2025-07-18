@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import("../userProfile/userProfile.css");
-import ProfilePhoto from "../../../img/user-profile-foto.png";
 import { UserPen, Trash2 } from "lucide-react";
 import { Modal, Button, Form } from "react-bootstrap";
 
@@ -9,6 +8,7 @@ const UserProfile = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [formData, setFormData] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
   const [error, setError] = useState("");
 
   const getMyProfile = async () => {
@@ -17,6 +17,7 @@ const UserProfile = () => {
 
       if (!token) {
         setError("Utente non autorizzato");
+        return;
       }
 
       const response = await fetch(
@@ -29,12 +30,19 @@ const UserProfile = () => {
       );
 
       const data = await response.json();
-      console.log(data);
       if (!response.ok) {
         setError("Errore nel recupero del profilo");
+        return;
       }
 
       setUser(data.user);
+      setFormData({
+        firstName: data.user.firstName,
+        lastName: data.user.lastName,
+        dateOfBirth: data.user.dateOfBirth.slice(0, 10),
+        phoneNumber: data.user.phoneNumber,
+        housingType: data.user.housingType,
+      });
     } catch (error) {
       setError(error.message);
     }
@@ -49,24 +57,38 @@ const UserProfile = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleImageChange = (e) => {
+    setSelectedImage(e.target.files[0]);
+  };
+
   const updateUser = async () => {
     try {
       const token = localStorage.getItem("token");
+      const form = new FormData();
+
+      Object.entries(formData).forEach(([key, value]) => {
+        form.append(key, value);
+      });
+
+      if (selectedImage) {
+        form.append("image", selectedImage);
+      }
+
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_BASE_URL}/users/edit/${user._id}`,
         {
           method: "PATCH",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(formData),
+          body: form,
         }
       );
 
       const data = await response.json();
       if (!response.ok) {
         setError("Errore nella modifica");
+        return;
       }
 
       setUser(data.userToUpdate);
@@ -104,6 +126,7 @@ const UserProfile = () => {
       setError("Errore generico");
     }
   };
+
   return (
     <>
       <div className="container">
@@ -115,29 +138,33 @@ const UserProfile = () => {
           {user ? (
             <div className="col-12 mt-5">
               <div className="card custom-card-profile">
-                <div className="image-profile-container d-flex justify-content-center">
+                <div className="image-profile-container d-flex justify-content-end">
                   <img
-                    className="img-fluid custom-profile-image "
-                    src={user.image}
-                    alt=""
+                    className="img-fluid custom-profile-image"
+                    src={
+                      selectedImage
+                        ? URL.createObjectURL(selectedImage)
+                        : user.image
+                    }
+                    alt="User profile"
                   />
                 </div>
-                <p className="mt-1">
-                  <strong>Nome:</strong> {user.firstName}
-                </p>
-                <p>
-                  <strong>Cognome:</strong> {user.lastName}
-                </p>
-                <p>
-                  <strong>Data di nascita:</strong>{" "}
-                  {user.dateOfBirth.slice(0, 10)}
-                </p>
-                <p>
-                  <strong>Telefono:</strong> {user.phoneNumber}
-                </p>
-                <p>
-                  <strong>Abitazione:</strong> {user.housingType}
-                </p>
+                <ul className="list-untyled text-center mt-4">
+                  <li className="mt-1 heading list-group-item">
+                    <>Nome:</> {user.firstName}
+                  </li>
+                  <li className="list-group-item">Cognome: {user.lastName}</li>
+                  <li className="list-group-item">
+                    Data di nascita: {user.dateOfBirth.slice(0, 10)}
+                  </li>
+                  <li className="list-group-item">
+                    Telefono: {user.phoneNumber}
+                  </li>
+                  <li className="list-group-item">
+                    Abitazione: {user.housingType}
+                  </li>
+                </ul>
+
                 <div className="d-flex justify-content-between">
                   <button onClick={() => setShowModal(true)} className="btn">
                     <UserPen className="edit-icon" color="green" />
@@ -146,14 +173,13 @@ const UserProfile = () => {
                     onClick={() => setShowDeleteModal(true)}
                     className="btn"
                   >
-                    {" "}
                     <Trash2 className="delete-icon" color="red" />
                   </button>
                 </div>
               </div>
             </div>
           ) : (
-            !error && <p>Caricamento profilo... </p>
+            !error && <p>Caricamento profilo...</p>
           )}
 
           <Modal show={showModal} onHide={() => setShowModal(false)} centered>
@@ -162,6 +188,10 @@ const UserProfile = () => {
             </Modal.Header>
             <Modal.Body>
               <Form>
+                <Form.Group className="mb-3">
+                  <Form.Label>Immagine Profilo</Form.Label>
+                  <Form.Control type="file" onChange={handleImageChange} />
+                </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Nome</Form.Label>
                   <Form.Control
@@ -183,7 +213,7 @@ const UserProfile = () => {
                 <Form.Group className="mb-3">
                   <Form.Label>Data di nascita</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="date"
                     name="dateOfBirth"
                     value={formData.dateOfBirth || ""}
                     onChange={handleChange}

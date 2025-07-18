@@ -54,10 +54,20 @@ const Footer = () => {
                     <p className="text-center fs-5">
                       Email:{" "}
                       <a
-                        href="mailto:info@adottaunpet.it"
+                        href="mailto:info.animalranch@gmail.it"
                         className="text-light fs-5 text-decoration-none"
                       >
                         info.animalranch@gmail.com
+                      </a>
+                    </p>
+                    <p className="fs-5 text-center">
+                      Foto di Luca Boeddu <br />
+                      Email:{" "}
+                      <a
+                        href="mailto:liloxproductions@gmail.com"
+                        className="text-light fs-5 text-decoration-none"
+                      >
+                        liloxproductions@gmail.com
                       </a>
                     </p>
                   </div>

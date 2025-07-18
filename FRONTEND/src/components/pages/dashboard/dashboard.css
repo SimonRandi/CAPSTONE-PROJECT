@@ -6,8 +6,11 @@
 .sidebar {
   background-color: #198754;
   color: white;
-
   width: 65px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 100vh;
 }
 
 .sidebar h3 {
