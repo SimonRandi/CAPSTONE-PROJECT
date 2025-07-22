@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BaseLayout from "../layout/BaseLayout";
 import { Link } from "react-router-dom";
+import "../pages/allCats.css";
 
 const AllCatsPage = () => {
   const [cats, setCats] = useState([]);
@@ -61,10 +62,16 @@ const AllCatsPage = () => {
 
   return (
     <BaseLayout>
-      <div className="container">
+      <div className="container all-cat-container ">
         <h2 className="text-center p-3">Tutti i Gatti</h2>
 
-        {isLoading && <p className="text-center">Caricamento...</p>}
+        {isLoading && (
+          <div class="d-flex justify-content-center align-items-center ">
+            <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        )}
 
         {!isLoading && cats.length > 0 && (
           <>

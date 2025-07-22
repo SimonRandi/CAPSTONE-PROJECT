@@ -65,7 +65,7 @@ const CatByAge = () => {
 
   return (
     <BaseLayout>
-      <div className="container-fluid">
+      <div className="container-fluid all-cat-container">
         <h2 className="text-center p-3">Cerca il tuo Gatto per Età</h2>
         <div className="row">
           <aside className="col-12 col-md-3 mb-4">
@@ -93,7 +93,13 @@ const CatByAge = () => {
           </aside>
 
           <section className="col-12 col-md-9">
-            {isLoading && <p>Caricamento...</p>}
+            {isLoading && (
+              <div class="d-flex justify-content-center align-items-center ">
+                <div class="spinner-border text-success" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            )}
 
             {!isLoading && cats.length > 0 && (
               <>

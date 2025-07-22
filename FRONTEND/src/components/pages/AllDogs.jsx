@@ -62,10 +62,16 @@ const AllDogsPage = () => {
 
   return (
     <BaseLayout>
-      <div className="container">
+      <div className="container all-dog-container">
         <h2 className="text-center p-3">Tutti i Cani</h2>
 
-        {isLoading && <p className="text-center">Caricamento...</p>}
+        {isLoading && (
+          <div class="d-flex justify-content-center align-items-center ">
+            <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        )}
 
         {!isLoading && dogs.length > 0 && (
           <>

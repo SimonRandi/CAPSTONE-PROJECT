@@ -56,18 +56,18 @@ const Dashboard = () => {
   return (
     <BaseLayout>
       <div className="dashboard-container">
-        <aside className="sidebar">
+        <aside className="sidebar ">
           <ul>
-            <li className="fs-3" onClick={() => setSection("home")}>
+            <li className="fs-3 icon" onClick={() => setSection("home")}>
               {" "}
-              <User />
+              <User className="" color="green " />
             </li>
             <li className="fs-3" onClick={() => setSection("new-post")}>
               {" "}
-              <Plus />
+              <Plus color="green" />
             </li>
             <li className="fs-3" onClick={() => setSection("my-posts")}>
-              <BookOpenText />
+              <BookOpenText color="green" />
             </li>
             <li onClick={handleLogout} className="logout fs-3">
               <LogOut />

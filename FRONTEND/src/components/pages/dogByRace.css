@@ -2,3 +2,7 @@
   max-height: 400px;
   overflow-y: auto;
 }
+
+.all-dog-container {
+  min-height: 80dvh;
+}

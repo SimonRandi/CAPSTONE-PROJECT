@@ -4,7 +4,7 @@
 }
 
 .sidebar {
-  background-color: #198754;
+  background-color: rgb(249, 246, 246);
   color: white;
   width: 65px;
   position: sticky;
@@ -30,10 +30,6 @@
   transition: background 0.2s ease-in-out;
 }
 
-.sidebar li:hover {
-  background-color: #157347;
-}
-
 .logout {
   color: #ffc107;
 }
@@ -42,4 +38,8 @@
   flex-grow: 1;
   padding: 5px;
   background-color: #f8f9fa;
+}
+
+.icon:hover {
+  color: white;
 }
