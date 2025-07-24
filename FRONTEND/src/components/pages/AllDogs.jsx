@@ -103,7 +103,11 @@ const AllDogsPage = () => {
                         <br />
                         <strong>Età:</strong> {dog.age}{" "}
                         {dog.age === 1 ? "anno" : "anni"}
+                        <br />
+                        <strong>Adottato:</strong> {dog.isAdopted}
+                        {dog.isAdopted === true ? "Si" : "No"}
                       </p>
+
                       <p className="card-text">
                         {dog.bio || "Nessuna descrizione disponibile."}
                       </p>

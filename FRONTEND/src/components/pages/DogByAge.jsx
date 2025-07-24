@@ -141,6 +141,9 @@ const DogByAge = () => {
                           <p className="mb-2">
                             <strong>Età:</strong> {dog.age}{" "}
                             {dog.age === 1 ? "anno" : "anni"}
+                            <br />
+                            <strong>Adottato:</strong> {dog.isAdopted}
+                            {dog.isAdopted === true ? "Si" : "No"}
                           </p>
 
                           <p className="card-text mb-3">

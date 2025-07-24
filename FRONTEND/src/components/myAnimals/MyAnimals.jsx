@@ -179,7 +179,7 @@ const MyAnimals = () => {
                     ? animal.image[0]
                     : "https://picsum.photos/400/250?text=Nessuna+immagine"
                 }
-                className="card-img-top"
+                className="card-img-top "
                 alt={animal.name}
               />
               <div className="card-body d-flex flex-column">

@@ -146,6 +146,9 @@ const CatByRace = () => {
                           <p className="mb-2">
                             <strong>Età:</strong> {cat.age}{" "}
                             {cat.age === 1 ? "anno" : "anni"}
+                            <br />
+                            <strong>Adottato:</strong> {cat.isAdopted}
+                            {cat.isAdopted === true ? "Si" : "No"}
                           </p>
                           <p className="card-text">
                             {cat.bio || "Nessuna descrizione disponibile."}
